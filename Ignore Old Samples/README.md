@@ -12,7 +12,7 @@ This can cause extra load on startup and cause duplicate records.
 How to use it
 ===
 
-* Add the code specified in the code item.
+* Add the code specified in the [code item](Code.Conditions.cs).
 * Change the expression that is triggering the result as follows:
 
 ``` CSharp
@@ -28,6 +28,10 @@ How it works
 ===
 When a sample is passed in for evaluation, this code will check the TimeStamp and make it ```Bad``` quality if it is more than 5 minutes old.
 
+![Stream](./images/SampleStream.JPG)
+
 If the TraceLevel of the item is set to ```Warning``` or ```Info``` then a message will be sent. 
+
+![ServerMessages](./images/ServerMessages.JPG)
 
 
