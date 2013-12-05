@@ -12,14 +12,17 @@ This can cause extra load on startup and cause duplicate records.
 How to use it
 ===
 
-1. Add the code specified in the code item.
-2. Change the expression that is triggering the result as follows:
-	```Code.Conditions.IgnoreOldSamples(
-			this,
-			Enterprise.Site.Timer.Values[time]
-		)
-	```
-3. Set the TraceLevel property to ```Warning```
+* Add the code specified in the code item.
+* Change the expression that is triggering the result as follows:
+
+``` CSharp
+Code.Conditions.IgnoreOldSamples(
+	this,
+	Enterprise.Site.Timer.Values[time]
+)
+```
+
+* Set the TraceLevel property to ```Warning```
 
 How it works
 ===
