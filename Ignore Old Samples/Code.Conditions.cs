@@ -31,14 +31,14 @@ namespace Code
 		}
 		
 		private static void trace(Item item, string format, params object[] args)
-        {
+        	{
 			item.WriteTraceMessage(TraceLevel.Warning, format, args);
-        }
+        	}
 		
 		private static void trace(string format, params object[] args)
-        {
+        	{
 			Diagnostics.Write(TraceLevel.Info, format, args);
-        }
+        	}
 
 	}
 }
