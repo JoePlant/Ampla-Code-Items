@@ -5,6 +5,7 @@ To demonstrate that the code item is working as required, three items will be ad
 * Code item
 * Timer
 * Test Variable
+
 ![Project Hierarchy](./images/Test.Items.PNG)
 
 Setup
