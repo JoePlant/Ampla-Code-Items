@@ -34,4 +34,9 @@ If the TraceLevel of the item is set to ```Warning``` or ```Info``` then a messa
 
 ![ServerMessages](./images/ServerMessages.JPG)
 
+How to Test
++++
+
+* See [Testing instructions](Testing.md)
+
 
