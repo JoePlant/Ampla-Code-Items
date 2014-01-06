@@ -45,7 +45,9 @@ To validate the code is working correctly
 ===
 If the code is working correctly, you should see the following:
 * Messages sent to the Server Messages Window
+
 ![Server Messages](./images/Test.Messages.PNG) 
 
-* Bad Samples for values older than 5 minutes
+* Samples property of the item will have ```Bad``` samples for the old values
+
 ![Test Samples](./images/Test.Samples.PNG) 
