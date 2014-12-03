@@ -10,7 +10,7 @@ namespace Code
 
 	public static class Conditions
 	{
-		private static TimeSpan maxAge = TimeSpan.FromMinutes(5);
+		private static readonly TimeSpan MaxAge = TimeSpan.FromMinutes(5);
 		
 		public static Sample AllSamples(Sample sample)
 		{
@@ -20,25 +20,25 @@ namespace Code
 		public static Sample IgnoreOldSamples(Item item, Sample sample)
 		{
 			TimeSpan age = DateTime.UtcNow - sample.TimeStamp;
-			if (age < maxAge)
+			if (age < MaxAge)
 			{
 				return sample;
 			}
 			
-			trace(item, "Ignoring old samples. Age={0:0.0} min", age.TotalMinutes);
+			Trace(item, "Ignoring old samples. Age={0:0.0} min", age.TotalMinutes);
 		
 			return new Sample(sample.SampleTypeCode, sample.TimeStamp, sample.Value, Quality.Bad) ;
 		}
 		
-		private static void trace(Item item, string format, params object[] args)
-        	{
+		private static void Trace(Item item, string format, params object[] args)
+        {
 			item.WriteTraceMessage(TraceLevel.Warning, format, args);
-        	}
+        }
 		
-		private static void trace(string format, params object[] args)
-        	{
+		private static void Trace(string format, params object[] args)
+        {
 			Diagnostics.Write(TraceLevel.Info, format, args);
-        	}
+       	}
 
 	}
 }
