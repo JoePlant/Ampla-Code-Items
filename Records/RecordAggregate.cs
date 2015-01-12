@@ -14,6 +14,22 @@ namespace Code.Records
         /// <param name="fields">Array of fields that will be updated.</param>
         /// <returns></returns>
         double SumValues(double start, params string[] fields);
+
+        /// <summary>
+        /// Gets the ratio from the field values
+        /// </summary>
+        /// <param name="numeratorField">The numerator field.</param>
+        /// <param name="denominatorField">The denominator field.</param>
+        /// <returns></returns>
+        double GetRatio(string numeratorField, string denominatorField);
+
+        /// <summary>
+        /// Gets the ratio from the field and a double value
+        /// </summary>
+        /// <param name="numeratorField">The numerator field.</param>
+        /// <param name="denominator">The denominator.</param>
+        /// <returns></returns>
+        double GetRatio(string numeratorField, double denominator);
     }
 
     /// <summary>
@@ -52,6 +68,31 @@ namespace Code.Records
                 result += Record.GetFieldValue<double>(fieldName, 0.0D);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Gets the ratio from the field values
+        /// </summary>
+        /// <param name="numeratorField">The numerator field.</param>
+        /// <param name="denominatorField">The denominator field.</param>
+        /// <returns></returns>
+        public double GetRatio(string numeratorField, string denominatorField)
+        {
+            double numerator = Record.GetFieldValue<double>(numeratorField, 0);
+            double denominator = Record.GetFieldValue<double>(denominatorField, 0);
+            return numerator/denominator;
+        }
+
+        /// <summary>
+        /// Gets the ratio from the field and a double value
+        /// </summary>
+        /// <param name="numeratorField">The numerator field.</param>
+        /// <param name="denominator">The denominator.</param>
+        /// <returns></returns>
+        public double GetRatio(string numeratorField, double denominator)
+        {
+            double numerator = Record.GetFieldValue<double>(numeratorField, 0);
+            return numerator / denominator;
         }
 
         /// <summary>
