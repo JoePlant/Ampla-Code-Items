@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using Citect.Ampla.Framework;
 using Citect.Ampla.General.Common;
 using Citect.Ampla.General.Common.Data;
@@ -130,7 +131,7 @@ namespace Code.Records
                 return string.Format("{0}:={1}", Field, Value);
             }
         }
-        
+
         /// <summary>
         /// Creates a new Record that wraps the Item and Event Args
         /// </summary>
@@ -141,7 +142,8 @@ namespace Code.Records
             /// </summary>
             /// <param name="sender">The sender.</param>
             /// <param name="recordChanged">The <see cref="RecordChangedEventArgs"/> instance containing the event data.</param>
-            public ChangedRecord(Item sender, RecordChangedEventArgs recordChanged) : base(sender)
+            public ChangedRecord(Item sender, RecordChangedEventArgs recordChanged)
+                : base(sender)
             {
                 if (recordChanged != null)
                 {
@@ -166,8 +168,34 @@ namespace Code.Records
                     if (editedData != null && editedData.Values.Count > 0)
                     {
                         editedData.UserName = EventType;
-                        reportingPoint.UpdateSampleData(editedData);
+
+                        UpdateRecord updateRecord = new UpdateRecord(reportingPoint, editedData);
+                        ThreadPool.QueueUserWorkItem(updateRecord.Execute);
                     }
+                }
+            }
+
+            /// <summary>
+            ///     Wrapper class to update a record and execute on another thread.
+            /// </summary>
+            private class UpdateRecord
+            {
+                private readonly ReportingPoint point;
+                private readonly EditedDataDescriptorCollection editedData;
+
+                public UpdateRecord(ReportingPoint point, EditedDataDescriptorCollection editedData)
+                {
+                    this.point = point;
+                    this.editedData = editedData;
+                }
+
+                /// <summary>
+                /// Executes the Update Record
+                /// </summary>
+                /// <param name="state">The state.</param>
+                public void Execute(object state)
+                {
+                    point.UpdateSampleData(editedData);
                 }
             }
         }
@@ -320,8 +348,9 @@ namespace Code.Records
             var field = AmplaRecord[fieldName];
             if (field != null)
             {
+                bool empty = IsEmptyValue(field);
                 T prevValue = GetFieldValue<T>(fieldName, default(T));
-                if (!object.Equals(prevValue, value))
+                if (empty || !object.Equals(prevValue, value))
                 {
                     FieldChange fieldChange = new FieldChange(fieldName, typeof(T), value);
                     UpdatedFields.Add(fieldChange);
@@ -333,6 +362,22 @@ namespace Code.Records
             {
                 TraceError("Unable to find field: '{0}'", fieldName);
             }
+        }
+
+        /// <summary>
+        /// Determines whether the field has a value
+        /// </summary>
+        /// <param name="field">The field.</param>
+        /// <returns></returns>
+        private bool IsEmptyValue(AmplaField field)
+        {
+            var actual = field.Actual;
+            if (actual != null)
+            {
+                var rawValue = actual.RawValue;
+                return rawValue == null;
+            }
+            return false;
         }
 
         /// <summary>
