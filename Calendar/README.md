@@ -58,7 +58,7 @@ The code uses a fluent interface to configure the calendar variable.
 Ability to specify the name of the Calendar using the method 
 
 Example:
-```
+``` CSharp
 new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
@@ -69,6 +69,7 @@ new Code.Calendar.CalendarVariable()
 ###```.ForItem(item) ```###
 
 Ability to use an item's full name for the target 
+``` CSharp
 new Code.Calendar.CalendarVariable()
 	.ForItem(item)
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
@@ -80,13 +81,16 @@ new Code.Calendar.CalendarVariable()
 
 Allows the automatic configuration of the dependency
 
-```
+```CSharp
+
 new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
 	.GetSample(time)
 ```
+
+The dependency will be automatically configured 
 
 ![Dependency](images/Expression.Dependency.png)
 
@@ -94,13 +98,14 @@ new Code.Calendar.CalendarVariable()
 
 If there is no value in the calendar then use the default value 
 
-```
+```CSharp
 new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
 	.GetSample(time)
 ```
+
 If there is no calendar configured for the value and there is no default, then a sample with ```Quality.Bad``` will be used.
 
 ###```.WithWarning() ```###
