@@ -35,7 +35,7 @@ new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Times.[1 Hour].Values)
 	.WithWarning()
-	.GetSample(time)
+	.GetSample(Project, time)
 	)
 ```
 
@@ -63,7 +63,7 @@ new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
-	.GetSample(time)
+	.GetSample(Project, time)
 ```
 
 ###```.ForItem(item) ```###
@@ -74,7 +74,7 @@ new Code.Calendar.CalendarVariable()
 	.ForItem(item)
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
-	.GetSample(time)
+	.GetSample(Project, time)
 ```
 
 ###```.WithDepenency(SampleStream) ```###
@@ -87,7 +87,7 @@ new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
-	.GetSample(time)
+	.GetSample(Project, time)
 ```
 
 The dependency will be automatically configured 
@@ -103,7 +103,7 @@ new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.UseDefault(100)
-	.GetSample(time)
+	.GetSample(Project, time)
 ```
 
 If there is no calendar configured for the value and there is no default, then a sample with ```Quality.Bad``` will be used.
@@ -118,7 +118,7 @@ new Code.Calendar.CalendarVariable()
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.WithWarning()
 	.UseDefault(100)
-	.GetSample(time)
+	.GetSample(Project, time)
 ```
 
 If there is no calendar configured for the value then a message will be written.

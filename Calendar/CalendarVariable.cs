@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Citect.Ampla.Framework;
+using Citect.Ampla.General.Server.Calendar;
 using Citect.Ampla.Runtime.Data;
 using Citect.Ampla.Runtime.Data.Samples;
 using Citect.Ampla.Runtime.Data.Streams;
@@ -18,7 +19,7 @@ namespace Code.Calendar
         IFluentCalendar UseDefault(double defaultValue);
         IFluentCalendar WithDependency(ISampleStream sampleStream);
         IFluentCalendar WithWarning();
-        Sample GetSample(DateTime time);
+        Sample GetSample(Project project, DateTime time);
     }
 
     /// <summary>
@@ -101,16 +102,43 @@ namespace Code.Calendar
         }
 
         /// <summary>
-        ///     Gets a sample from calendar at the specified time
+        /// Gets the value from the calendar
         /// </summary>
-        /// <param name="time">Time for the sample</param>
+        /// <param name="project">The project.</param>
+        /// <param name="time">The time.</param>
         /// <returns></returns>
-        public Sample GetSample(DateTime time)
+        private object GetValue(Project project, DateTime time)
         {
-            object value =
-                useRate
+            // Ampla 5.2 (and earlier)
+            /* 
+            return useRate
                     ? Citect.Ampla.General.Server.Calendar.CalendarCache.GetValue(calendarName, time, period)
                     : Citect.Ampla.General.Server.Calendar.CalendarCache.GetValue(calendarName, time);
+            */
+              
+            // Ampla 6.0 (and later)
+            
+            ICalendarCache calendarCache = project.Resolve<ICalendarCache>();
+            
+            if (calendarCache != null)
+            {
+                return useRate
+                           ? calendarCache.GetValue(calendarName, time, period)
+                           : calendarCache.GetValue(calendarName, time);
+            }
+            
+            return null;
+        }
+
+        /// <summary>
+        ///     Gets a sample from calendar at the specified time
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="time">Time for the sample</param>
+        /// <returns></returns>
+        public Sample GetSample(Project project, DateTime time)
+        {
+            object value = GetValue(project, time);
 
             if (value == null || value is DBNull)
             {
