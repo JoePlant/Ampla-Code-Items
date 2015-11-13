@@ -33,7 +33,7 @@ Example code:
 ``` CSharp
 new Code.Calendar.CalendarVariable()
 	.ForCalendar("Area 1.Grinding.Target")
-	.WithDependency(Project.[System Configuration].Times.[1 Hour].Values)
+	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.WithWarning()
 	.GetSample(Project, time)
 	)
