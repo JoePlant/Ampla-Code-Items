@@ -11,6 +11,9 @@ Code to create read Calendar values in a Calculated Variable.
 
 * [Calendar](/Calendar)
 
+Code to calculate the length of time a value is true for
+
+* [TimeCalculations](/TimeCalculations)
 
 Code to support record changing
 

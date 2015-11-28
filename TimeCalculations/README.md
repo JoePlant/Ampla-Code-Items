@@ -2,7 +2,7 @@
 
 
 This Code item will assist in creating an "Operating Time Variable".
-An "Operating Time Variable" will be an calculated variable that will contain the length of time a value has been true for. 
+An "Operating Time Variable" will be a calculated variable that will contain the length of time a value has been true for. 
 
 ##Purpose##
 
@@ -14,6 +14,7 @@ This code can be used to configure the expression for a Calculated Variable as a
 
 * Specify a boolean stream that contains when the equipment is operating
 * Specify a another stream to trigger when to update
+* Calculate either TotalDays, TotalHours or TotalSeconds
 
 How to use it
 ===
