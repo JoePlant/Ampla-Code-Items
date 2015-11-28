@@ -36,7 +36,6 @@ new Code.Calendar.CalendarVariable()
 	.WithDependency(Project.[System Configuration].Timers.[1 Hour].Values)
 	.WithWarning()
 	.GetSample(Project, time)
-	)
 ```
 
 ![Expression](images/Expression.png)
