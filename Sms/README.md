@@ -93,7 +93,7 @@ When it detects a change needs to occur, it will call the ```ISmsService``` inte
 ##```ISmsInterface```##
 
 The ISmsInterface has a simple interface to send messages to mobile numbers.
-Example implementations are shown in [Code.Sms.SmsService.cs](../SmsService.cs).
+Example implementations are shown in [Code.Sms.SmsService.cs](SmsService.cs).
 
 ``` CSharp
 
