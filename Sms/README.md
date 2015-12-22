@@ -9,9 +9,9 @@ Provides some classes for sending Sms messages to an Sms service when a conditio
 
 The following code items are required
 
-* [Code.Sms.SmsAction.cs](../SmsAction.cs)
-* [Code.Sms.SmsService.cs](../SmsService.cs)
-* [Code.Sms.ConnectionStrings.cs](../ConnectionStrings.cs)
+* [Code.Sms.SmsAction.cs](SmsAction.cs)
+* [Code.Sms.SmsService.cs](SmsService.cs)
+* [Code.Sms.ConnectionStrings.cs](ConnectionStrings.cs)
 * [Code.Database.SqlHelper.cs](../Database/SqlHelper.cs)
 
 ###Requirements###
