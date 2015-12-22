@@ -31,7 +31,7 @@ Requirement 1:
  
 ``` CSharp
 
-new Code.Sms.SmsAction(host)
+new Code.Sms.SmsAction(this)
 	.Using(new SqlSmsService())
 //	.Using(new AmplaMessageService())
     .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
@@ -56,7 +56,7 @@ Requirement 2:
  
 ``` CSharp
 
-new Code.Sms.SmsAction(host)
+new Code.Sms.SmsAction(this)
 	.Using(new SqlSmsService())
 //	.Using(new AmplaMessageService())
     .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
@@ -152,3 +152,126 @@ This code inserts values into a sql table called ```SMS.dbo.OUTBOX```
 ```
 
 Each project will need to implement an SmsService as appropriate to their SMS component.
+
+#API#
+
+The fluent APi has the following methods.
+
+
+###```.Using(ISmsService) ```###
+
+Indicates what SmsService will be used for sending messages.
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	...
+
+```
+
+###```.IfTrue(ISampleStream) ```###
+
+The Sample stream that will be searched for boolean values.
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	...
+
+```
+
+###```.Then() ```###
+
+Moves the fluent interface into the action. 
+When then is used there is no additional delay
+
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	.SendMessage(...)
+		.ToMobile(...)
+	.And()
+	.Then()
+		.SendMessage(...)
+		.ToMobile(...)
+	...
+	
+```
+
+###```.AfterDelay(TimeSpan delay) ```###
+
+Allows additional actions to occur after a particular delay. 
+The result still needs to be true.
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .AfterDelay(TimeSpan.FromMinutes(5))
+    	.SendMessage(...)
+		.ToMobile(...)
+	...
+	
+```
+
+###```.SendMessage(string message) ```###
+
+Indicates what the message is to send to the Sms service.
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	.SendMessage("Send this SMS message")
+		.ToMobile(...)
+	...
+	
+```
+
+###```.ToMobile(string mobile) ```###
+
+Indicates what the number that the mobile will send.
+This property can be concatenated to send the same message to multiple mobile numbers.
+
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	.SendMessage("Send this SMS message")
+		.ToMobile("0410-123-456")
+	...
+	
+```
+
+###```.Evaluate(Project project, TimePeriod period) ```###
+
+Evaluates the ```SmsAction``` and triggers the messages.
+
+``` CSharp
+
+new Code.Sms.SmsAction(this)
+	.Using(new SqlSmsService())	
+    .IfTrue(Project.Enterprise.Site.Area.Sms.Monitoring)
+    .Then()
+    	.SendMessage("Send this SMS message")
+		.ToMobile("0410-123-456")
+	.Evaluate(project, period)
+	
+```
+
