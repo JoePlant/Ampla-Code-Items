@@ -30,7 +30,7 @@ Requirement 1:
 ###Action Function###
  
 ```
-CSharp
+
 new Code.Sms.SmsAction(host)
 	.Using(new SqlSmsService())
 //	.Using(new AmplaMessageService())
@@ -55,7 +55,7 @@ Requirement 2:
 ###Action Function###
  
 ```
-CSharp
+
 new Code.Sms.SmsAction(host)
 	.Using(new SqlSmsService())
 //	.Using(new AmplaMessageService())
@@ -96,7 +96,6 @@ The ISmsInterface has a simple interface to send messages to mobile numbers.
 Example implementations are shown in [Code.Sms.SmsService.cs](../SmsService.cs).
 
 ```
-CSharp
 
     public interface ISmsService
     {
@@ -111,7 +110,7 @@ Examples include:
 
 This code writes Sms messages to the Event Log and can be used for testing.
 ```
-CSharp
+
 
     public class AmplaMessageService : ISmsService
     {
@@ -129,7 +128,6 @@ CSharp
 This code inserts values into a sql table called ```SMS.dbo.OUTBOX```
 
 ```
-CSharp
 
     public class SqlSmsService : ISmsService
     {
