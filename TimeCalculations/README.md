@@ -136,7 +136,7 @@ Calculate the total number of days
 
 ```CSharp
 new Code.TimeCalculations.OperatingTimeVariable(this)
-	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger)
+	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger.Samples)
 	.UpdateEvery(Project.[System Configuration].Timers.[1 Hour].Values)
 	.StoreStatusIn(Project.Enterprise.Area.Equipment.Status)
 	.TotalDays()
@@ -151,7 +151,7 @@ Calculate the total number of hours
 
 ```CSharp
 new Code.TimeCalculations.OperatingTimeVariable(this)
-	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger)
+	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger.Samples)
 	.UpdateEvery(Project.[System Configuration].Timers.[1 Hour].Values)
 	.StoreStatusIn(Project.Enterprise.Area.Equipment.Status)
 	.TotalHours()
@@ -166,7 +166,7 @@ Calculate the total number of minutes
 
 ```CSharp
 new Code.TimeCalculations.OperatingTimeVariable(this)
-	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger)
+	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger.Samples)
 	.UpdateEvery(Project.[System Configuration].Timers.[1 Hour].Values)
 	.StoreStatusIn(Project.Enterprise.Area.Equipment.Status)
 	.TotalMinutes()
@@ -181,7 +181,7 @@ Calculate the total number of seconds.
 
 ```CSharp
 new Code.TimeCalculations.OperatingTimeVariable(this)
-	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger)
+	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger.Samples)
 	.UpdateEvery(Project.[System Configuration].Timers.[1 Hour].Values)
 	.StoreStatusIn(Project.Enterprise.Area.Equipment.Status)
 	.TotalSeconds()
@@ -192,7 +192,7 @@ If ```.TotalDays()```, ```.TotalHours()``` or ```.TotalMinutes()``` are not spec
 
 ```CSharp
 new Code.TimeCalculations.OperatingTimeVariable(this)
-	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger)
+	.UsingCondition(Project.Enterprise.Area.Equipment.Trigger.Samples)
 	.UpdateEvery(Project.[System Configuration].Timers.[1 Hour].Values)
 	.StoreStatusIn(Project.Enterprise.Area.Equipment.Status)
 	.GetSample(Project, time)
