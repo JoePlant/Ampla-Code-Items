@@ -121,11 +121,26 @@ namespace Code.TimeCalculations
                 TraceError("Unable to Calculate OperatingTimeVariable as no StoredVariable available for storing the status.\r\nAdd .StoreStatusIn(storedVariable) to the Expression.");
             }
             
+            if (statusVariable != null
+                && statusVariable.SampleTypeCode != SampleTypeCode.String)
+            {
+                statusVariable.WriteTraceMessage(TraceLevel.Error,
+                    "SampleTypeCode must be String for storing the status of the OperatingTimeVariable as defined on {0}",
+                                                 hostItem.FullName);
+            }
+            if (statusVariable != null 
+                && statusVariable.UpdateMode != SampleStreamUpdateMode.OnWrite)
+            {
+                statusVariable.WriteTraceMessage(TraceLevel.Error,
+                    "UpdateMode must be OnWrite for storing the status of the OperatingTimeVariable as defined on {0}",
+                                                 hostItem.FullName);
+            }
+            
             if (conditionStream == null)
             {
-                TraceError("Unable to Calculate as no StoredVariable available for storing the status.\r\nAdd .StoreStatusIn(storedVariable) to the Expression.");
+                TraceError("No Condition is specified to monitor for the OperatingTimeVariable. \r\nAdd UsingCondition(variable.Samples) to the Expression.");
             }
-            else if (conditionStream.SampleTypeCode != SampleTypeCode.Boolean)
+            if (conditionStream != null && conditionStream.SampleTypeCode != SampleTypeCode.Boolean)
             {
                 TraceError("Unable to monitor the condition as it is not a Boolean Sample.");
             }
@@ -141,19 +156,6 @@ namespace Code.TimeCalculations
 
             if (statusVariable != null)
             {
-                if (statusVariable.SampleTypeCode != SampleTypeCode.String)
-                {
-                    statusVariable.WriteTraceMessage(TraceLevel.Error, 
-                        "SampleTypeCode must be String for storing the status of the OperatingTimeVariable as defined on {0}",
-                                                     hostItem.FullName);
-                }
-                else if (statusVariable.UpdateMode != SampleStreamUpdateMode.OnWrite)
-                {
-                    statusVariable.WriteTraceMessage(TraceLevel.Error,
-                        "UpdateMode must be OnWrite for storing the status of the OperatingTimeVariable as defined on {0}",
-                                                     hostItem.FullName);
-                }
-
                 // save the current state
                 Sample sample = new StringSample(time, state.GetPersistenceValue(), Quality.Good);
                 statusVariable.Samples.Write(sample);
