@@ -1,6 +1,7 @@
 ﻿using System;
 using Citect.Ampla.Framework;
 using Citect.Ampla.Runtime.Data.Streams;
+using Citect.Common;
 using Code.Services;
 
 namespace Code.Sms
@@ -10,7 +11,7 @@ namespace Code.Sms
         public Item host;
         public ISampleStream checkStream;
         
-        public void Main(Project project, DateTime time)
+        public void Main(Project project, TimePeriod period)
         {
             new Code.Sms.SmsAction(host)
                 .Using(new AmplaMessageService())
@@ -30,7 +31,7 @@ namespace Code.Sms
                 .AfterDelay(TimeSpan.FromMinutes(30))
                     .SendMessage("OPC-HDA has been broken for 60 minutes")
                     .ToMobile("000-000-002-1")
-                .Evaluate(project, time);
+                .Evaluate(project, period);
         }
     }
 }

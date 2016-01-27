@@ -76,8 +76,8 @@ namespace Code.Sms
                 Log("SmsAction: {0} is not monitoring a stream.", hostFullName);
             }
 
-            bool result;
-            DateTime timeStamp;
+            bool result; // whether the result is true.
+            DateTime timeStamp; // the time of the last result
 
             if (TryEvaluateSampleAt(ifStream, period.End, out result, out timeStamp))
             {
