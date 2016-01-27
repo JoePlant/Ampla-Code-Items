@@ -1,93 +1,91 @@
 ﻿using System;
 using Citect.Ampla.Framework;
-using Citect.Ampla.Runtime.Data;
 using Citect.Ampla.Runtime.Data.Samples;
 using Citect.Ampla.Runtime.Data.Streams;
+using Citect.Ampla.StandardItems;
 
 namespace Code.TimeCalculations
 {
-
     /// <summary>
     ///     Fluent interface for configuring OperatingTime Variables
     /// </summary>
     public interface IFluentOperatingTime
     {
-        IFluentOperatingTime Using(ISampleStream trueSample);
+        IFluentOperatingTime UsingCondition(ISampleStream conditionStream);
+        IFluentOperatingTime StoreStatusIn(StoredVariable storedVariable);
         IFluentOperatingTime UpdateEvery(ISampleStream timerStream);
+        IFluentOperatingTime ResetAfter(TimeSpan resetAfter);
         IFluentOperatingTime TotalHours();
         IFluentOperatingTime TotalDays();
+        IFluentOperatingTime TotalMinutes();
         Sample GetSample(Project project, DateTime time);
     }
 
     public class OperatingTimeVariable : IFluentOperatingTime
     {
-        private ISampleStream usingStream;
-        private bool calculateHours;
-        private bool calculateDays;
-        public IFluentOperatingTime Using(ISampleStream sampleStream)
+        public OperatingTimeVariable(CalculatedVariable host)
         {
-            usingStream = sampleStream;
+            this.host = host;
+            resetAfterPeriod = TimeSpan.Zero;
+        }
+
+        private ISampleStream conditionStream;
+        private CalculationUnits calculationUnits = CalculationUnits.Seconds;
+        private TimeSpan resetAfterPeriod;
+        private readonly CalculatedVariable host;
+        private StoredVariable statusVariable;
+
+        public IFluentOperatingTime UsingCondition(ISampleStream usingConditionStream)
+        {
+            conditionStream = usingConditionStream;
+            return this;
+        }
+
+        public IFluentOperatingTime StoreStatusIn(StoredVariable storedVariable)
+        {
+            statusVariable = storedVariable;
             return this;
         }
 
         public IFluentOperatingTime UpdateEvery(ISampleStream timerStream)
         {
-            // Expression  sampleStream is used to register the dependency
+            // Expression timerStream is used to register the dependency
+            return this;
+        }
+
+        public IFluentOperatingTime ResetAfter(TimeSpan resetAfter)
+        {
+            resetAfterPeriod = resetAfter;
             return this;
         }
 
         public IFluentOperatingTime TotalHours()
         {
-            calculateHours = true;
-            calculateDays = false;
+            calculationUnits = CalculationUnits.Hours;
             return this;
         }
 
         public IFluentOperatingTime TotalDays()
         {
-            calculateDays = true;
-            calculateHours = false;
+            calculationUnits = CalculationUnits.Days;
+            return this;
+        }
+
+        public IFluentOperatingTime TotalMinutes()
+        {
+            calculationUnits = CalculationUnits.Minutes;
             return this;
         }
 
         public Sample GetSample(Project project, DateTime time)
         {
-            
-            int indexOfSample = usingStream.IndexOnOrBefore(time);
-            if (indexOfSample >= 0)
-            {
-                ISample sample = usingStream[indexOfSample];
-                if (sample.IsGood)
-                {
-                    bool value = false;
-                    try
-                    {
-                        value = Convert.ToBoolean(sample.Value);
-                    }
-                    catch (Exception)
-                    {
-                        // swallow exceptions
-                    }
-                    if (value)
-                    {
-                        DateTime since = sample.TimeStamp;
-                        TimeSpan age = time - since;
-                        if (calculateDays)
-                        {
-                            return new Sample(time, age.TotalDays, Quality.GoodLocalOverride);
-                        }
-                        else if (calculateHours)
-                        {
-                            return new Sample(time, age.TotalHours, Quality.GoodNonspecific);
-                        }
-                        else
-                        {
-                            return new Sample(time, age.TotalSeconds, Quality.GoodNonspecific);
-                        }
-                    }
-                }
-            }
-            return new Sample(time, 0.0D, Quality.GoodNonspecific);
+            IOperatingTimeCalculator calculator = new OperatingTimeCalculator(host);
+            calculator.SetConditionStream(conditionStream);
+            calculator.SetStatusVariable(statusVariable);
+            calculator.SetResetDuration(resetAfterPeriod);
+            calculator.SetCalculationUnits(calculationUnits);
+            calculator.Calculate(time);
+            return calculator.GetSample(time);
         }
     }
 }
