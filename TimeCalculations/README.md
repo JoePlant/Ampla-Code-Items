@@ -23,6 +23,7 @@ How to use it
 
 * Add the code specified in the [code item (OperatingTimeVariable)](OperatingTimeVariable.cs).
 * Add the code specified in the [code item (OperatingTimeCalculator)](OperatingTimeCalculator.cs)
+* Add a Stored Variable to store the operating time status in it
 * Change the expression that is triggering the result as follows:
 
 Example code: 
@@ -40,6 +41,23 @@ new Code.TimeCalculations.OperatingTimeVariable(this)
 ![Expression](images/Expression.png)
 
 The resulting stream will be either zero or contain the number of minutes that the stream has been true for.  The result will be zero when the trigger is no longer true after 5 minutes.
+
+###Stored Variable for status###
+
+A stored variable is required to store the operating time calculations.
+
+![Status Variable](images/Hierarchy.Status.png)
+
+The Stored Variable stores the state, last value and number of ticks since the operating time calculation changed state. It needs to have the following properties set:
+
+```
+SampleTypeCode = String
+UpdateMode = OnWrite
+```
+
+![Status Variable Properties](images/Status.Properties.png)
+
+The Status Variable is used in the OperatingTimeVariable using the ```StoreStatusIn()``` method.  
 
 ### Trigger Stream ###
 
@@ -112,6 +130,25 @@ new Code.TimeCalculations.OperatingTimeVariable(this)
 	.TotalDays()
 	.GetSample(project, time)
 ```
+
+###```.StoreStatusIn(StoredVariable)```###
+
+The status of the internal states of the OperatingTimeCalculation will need to be stored in a StoredVariable.  The SampleTypeCode is String and UpdateMode = OnWrite. 
+
+In the following example, the status is stored in a stored variable called "Enterprise.Site.Area.Equipment.Status".
+Note that the full item will need to be specified.  
+
+Example:
+``` CSharp
+new Code.TimeCalculations.OperatingTimeVariable(this)
+	.UsingCondition(Project.Enterprise.Site.Area.Equipment.Trigger.Samples)
+	.UpdateEvery(Project.Enterprise.Site.Area.Timer.Values)
+	.StoreStatusIn(Project.Enterprise.Site.Area.Equipment.Status)
+	.TotalDays()
+	.GetSample(project, time)
+```
+
+It is important that each OperatingTimeVariable calculation have a separate stored variable.
 
 ###```.UpdateEvery(ISampleStream) ```###
 
@@ -218,7 +255,24 @@ This stream shows the value is held for 5 minutes before resetting.
 
 If the ```.ResetAfter(TimeSpan)``` is not specified, then the value will reset immediately.
 
+###```.GetSample(Project, time) ```###
+This method will return a sample calculating the operting time.  The returned sample is used as the result of the CalculatedVariable.
+
 ###Error Messages###
+
+####No Condition specified####
+A boolean condition will need to be specified to monitor for Operating Time.  When the condition is is True, it is considered to be true.
+
+![Dependency](images/ErrorMessage.Condition.png)
+
+```
+Level: Error
+Timestamp: 27/01/2016 4:10:33 PM
+Name: Enterprise.Site.Area.Equipment.Operating Time, 
+Type: Citect.Ampla.StandardItems.CalculatedVariable, 
+Description: No Condition is specified to monitor for the Operating Time Variable.
+Add UsingCondition(variable.Samples)to the Expression.
+```
 
 ####No Stored Variable specified####
 A Stored Variable is required for each of the OperatingTimeVariables.
@@ -260,3 +314,13 @@ Name: Enterprise.Site.Area.Equipment.Status,
 Type: Citect.Ampla.StandardItems.StoredVariable, 
 Description: UpdateMode must be OnWrite for storing the status of the OperatingTimeVariable as defined on Enterprise.Site.Area.Equipment.Operating Time
 ```
+
+###Debug TraceMessages###
+
+It is possible to set the TraceLevel=Verbose of the CalculatedVariable to get the state changes to be logged to the Server Messages window and the Ampla EventLog.
+
+The messages show the old state and new state and the last value in brackets.  In the messages below it can be seen that that state change went from Operating to Hold and the last value was 22.86694.  The state went again to Operating and back to Hold again.
+
+![Verbose Messages](images/Verbose.Messages.png) 
+
+ 
