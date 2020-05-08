@@ -5,7 +5,7 @@ Provides some classes for sending Sms messages to an Sms service when a conditio
 
 
 
-##Code##
+## Code ##
 
 The following code items are required
 
@@ -14,20 +14,20 @@ The following code items are required
 * [Code.Sms.ConnectionStrings.cs](ConnectionStrings.cs)
 * [Code.Database.SqlHelper.cs](../Database/SqlHelper.cs)
 
-###Requirements###
+### Requirements ###
 The purpose of the Sms code is to trigger an Sms message to a mobile when a condition is true.  
 If the condition stays true for multiple amounts of time, then it will other messages to be send to different numbers.
 
-###Configuration###
+### Configuration ###
 The configuration uses an ```Action``` item to trigger when a dependency changes.
 
-###Example usage###
+### Example usage ###
 Requirement 1: 
 
 * Send a message "It has happend" when a condition is true to the mobiles 123-456-789 and 123-456-780. 
 * If the condition is still true after 60 seconds then send a "different" message to 987-654-321
 
-###Action Function###
+### Action Function ###
  
 ``` CSharp
 
@@ -52,7 +52,7 @@ Requirement 2:
 * Send a message "It has happened" when a condition is true to the mobile 123-456-789. 
 * Send a message "It has happened again" when a condition is true to the mobile 987-654-321
 
-###Action Function###
+### Action Function ###
  
 ``` CSharp
 
@@ -71,7 +71,7 @@ new Code.Sms.SmsAction(this)
 
 ```
 
-#Configuring the Action#
+# Configuring the Action #
 
 The action will require the following properties to be set:
 
@@ -84,13 +84,13 @@ The action will require the following properties to be set:
 * ```DependencyExecutionMode``` = ```ExecuteForEachPeriod```
 * ```Function``` = (sms function as shown above)
  
-##How it works##
+## How it works ##
 
 The Action will watch for changes to the dependency, either a change in value or an update in the period.  
 When a change occurs, the code will check if the stream has a true value. If so, it will check what actions will need to occur in the period.
 When it detects a change needs to occur, it will call the ```ISmsService``` interface and call a message.
 
-##```ISmsInterface```##
+## ```ISmsInterface``` ##
 
 The ISmsInterface has a simple interface to send messages to mobile numbers.
 Example implementations are shown in [Code.Sms.SmsService.cs](SmsService.cs).
@@ -106,7 +106,7 @@ Example implementations are shown in [Code.Sms.SmsService.cs](SmsService.cs).
 
 Examples include:
 	
-###Code.Sms.AmplaMessageService###
+### Code.Sms.AmplaMessageService ###
 
 This code writes Sms messages to the Event Log and can be used for testing.
 ``` CSharp
@@ -122,7 +122,7 @@ This code writes Sms messages to the Event Log and can be used for testing.
     }
 ```
 
-###Code.Sms.SqlSmsService###
+### Code.Sms.SqlSmsService ###
 
 This code inserts values into a sql table called ```SMS.dbo.OUTBOX```
 
@@ -153,12 +153,12 @@ This code inserts values into a sql table called ```SMS.dbo.OUTBOX```
 
 Each project will need to implement an SmsService as appropriate to their SMS component.
 
-#API#
+# API #
 
 The fluent APi has the following methods.
 
 
-###```.Using(ISmsService) ```###
+### ```.Using(ISmsService) ``` ###
 
 Indicates what SmsService will be used for sending messages.
 
@@ -172,7 +172,7 @@ new Code.Sms.SmsAction(this)
 
 ```
 
-###```.IfTrue(ISampleStream) ```###
+### ```.IfTrue(ISampleStream) ``` ###
 
 The Sample stream that will be searched for boolean values.
 
@@ -186,7 +186,7 @@ new Code.Sms.SmsAction(this)
 
 ```
 
-###```.Then() ```###
+### ```.Then() ``` ###
 
 Moves the fluent interface into the action. 
 When then is used there is no additional delay
@@ -208,7 +208,7 @@ new Code.Sms.SmsAction(this)
 	
 ```
 
-###```.AfterDelay(TimeSpan delay) ```###
+### ```.AfterDelay(TimeSpan delay) ``` ###
 
 Allows additional actions to occur after a particular delay. 
 The result still needs to be true.
@@ -225,7 +225,7 @@ new Code.Sms.SmsAction(this)
 	
 ```
 
-###```.SendMessage(string message) ```###
+### ```.SendMessage(string message) ``` ###
 
 Indicates what the message is to send to the Sms service.
 
@@ -241,7 +241,7 @@ new Code.Sms.SmsAction(this)
 	
 ```
 
-###```.ToMobile(string mobile) ```###
+### ```.ToMobile(string mobile) ``` ###
 
 Indicates what the number that the mobile will send.
 This property can be concatenated to send the same message to multiple mobile numbers.
@@ -259,7 +259,7 @@ new Code.Sms.SmsAction(this)
 	
 ```
 
-###```.Evaluate(Project project, TimePeriod period) ```###
+### ```.Evaluate(Project project, TimePeriod period) ``` ###
 
 Evaluates the ```SmsAction``` and triggers the messages.
 
