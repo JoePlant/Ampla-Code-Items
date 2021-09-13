@@ -1,22 +1,18 @@
-Database
-================
+# Database #
 
 This code will allow for calls to the database to managed easily.
 
-Purpose
-===
+## Purpose ##
 
 To provide a simple interface to access SQL database
 
-How to use it
-===
+## How to use it ##
 
 Copy the code from [SQLHelper.cs](SqlHelper.cs) to a code item.
 
-Interface
-=== 
+## Interface ##
 
-``` CSharp
+```CSharp
 
     /// <summary>
     /// Interface for the SQL Helper
@@ -51,16 +47,15 @@ Interface
     }
 ```
 
-Examples
-===
+## Examples ##
 
 ```CSharp
 
-	using (ISqlHelper sqlHelper = new SqlHelper(connectionString, "Example Code")
-	{
-       	string sql = "Select Sum([Value]) from dbo.ExampleTable where Code = @code";
+ using (ISqlHelper sqlHelper = new SqlHelper(connectionString, "Example Code")
+ {
+        string sql = "Select Sum([Value]) from dbo.ExampleTable where Code = @code";
         SqlParameter codeParam = new SqlParameter("code", "123");
         return (double)sqlHelper.ExecuteScalar(CommandType.Text, sql, codeParam);
-	}
+ }
 
 ```

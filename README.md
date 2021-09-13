@@ -1,5 +1,4 @@
-Ampla-Code-Items
-================
+# Ampla-Code-Items #
 
 Collection of useful Code items for Ampla projects
 
@@ -7,7 +6,7 @@ Code to ignore old samples
 
 * [Ignore Old Samples](/Ignore%20Old%20Samples)
 
-Code to create read Calendar values in a Calculated Variable. 
+Code to create read Calendar values in a Calculated Variable.
 
 * [Calendar](/Calendar)
 
@@ -23,17 +22,9 @@ Code to support sending messages to a Sms service when a condition is true.
 
 * [Sms](/Sms)
 
-
-Code to support creating a text status that consolidates a number of strings together from different locations.
-
-* [TextStatus](/TextStatus)
-
-
 Code to support record changing and record changed.
 
 * [Records](/Records)
 * [Custom](/Custom)
 * [Database](/Database)
 * [Services](/Services)
-
-

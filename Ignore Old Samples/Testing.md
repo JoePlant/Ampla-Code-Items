@@ -1,15 +1,15 @@
-Testing instructions
-================
+# Testing instructions #
 
 To demonstrate that the code item is working as required, three items will be added to a folder.
+
 * Code item
 * Timer
 * Test Variable
 
 ![Project Hierarchy](./images/Test.Items.PNG)
 
-Setup
-===
+## Setup ##
+
 * Create a new Ampla Project
 * Add a folder ```Ignore Samples```
 * Add a code item called ```Code```  (Ignore Samples.Code)
@@ -20,34 +20,35 @@ Setup
 * Save Project
 * Start Project
 
-Check the Timer's Values property
-===
+## Check the Timer's Values property ##
 
 The Ignore Samples.Timer should have the following sample stream.
-![Timer Samples](./images/Timer.Samples.PNG) 
+![Timer Samples](./images/Timer.Samples.PNG)
 
+## Test using a Calculated Variable ##
 
-Test using a Calculated Variable
-===
 * Add a Calculated Variable called ```Test Variable``` (Ignore Samples.Test Variable)
 * Set TraceLevel to ```Warning```
 * Set DataType to ```Boolean```
 * Set the Historical expression to the following
+
 ```CSharp
 Code.Conditions.IgnoreOldSamples(
-	this,
-	Project.[Ignore Samples].Timer.Values[time]
+ this,
+ Project.[Ignore Samples].Timer.Values[time]
 )
 ```
+
 * Start Test Variable
 
-To validate the code is working correctly
-===
+## To validate the code is working correctly ##
+
 If the code is working correctly, you should see the following:
+
 * Messages sent to the Server Messages Window
 
-![Server Messages](./images/Test.Messages.PNG) 
+![Server Messages](./images/Test.Messages.PNG)
 
 * Samples property of the item will have ```Bad``` samples for the old values
 
-![Test Samples](./images/Test.Samples.PNG) 
+![Test Samples](./images/Test.Samples.PNG)
